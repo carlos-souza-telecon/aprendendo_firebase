@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "921830428079",
+    "project_id": "testandoflutterfirebase",
+    "storage_bucket": "testandoflutterfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921830428079:android:c5fc6cb6837391cc95f35a",
+        "android_client_info": {
+          "package_name": "com.example.aprendendo_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "921830428079-q80cjsl63pds9dnckj7dh2di2ersl1vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNcOB9dcBmqREmK7W0Ogp9fS_NFELE3z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "921830428079-q80cjsl63pds9dnckj7dh2di2ersl1vo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
