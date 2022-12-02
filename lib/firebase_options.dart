@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '921830428079',
     projectId: 'testandoflutterfirebase',
     authDomain: 'testandoflutterfirebase.firebaseapp.com',
+    databaseURL: 'https://testandoflutterfirebase-default-rtdb.firebaseio.com',
     storageBucket: 'testandoflutterfirebase.appspot.com',
     measurementId: 'G-XSVS1QX11Y',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:921830428079:android:c5fc6cb6837391cc95f35a',
     messagingSenderId: '921830428079',
     projectId: 'testandoflutterfirebase',
+    databaseURL: 'https://testandoflutterfirebase-default-rtdb.firebaseio.com',
     storageBucket: 'testandoflutterfirebase.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:921830428079:ios:92729de084752fa295f35a',
     messagingSenderId: '921830428079',
     projectId: 'testandoflutterfirebase',
+    databaseURL: 'https://testandoflutterfirebase-default-rtdb.firebaseio.com',
     storageBucket: 'testandoflutterfirebase.appspot.com',
     iosClientId: '921830428079-m06dmk9pnb0jnd17m87v844vr8u1lf2n.apps.googleusercontent.com',
     iosBundleId: 'com.example.aprendendoFirebase',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:921830428079:ios:92729de084752fa295f35a',
     messagingSenderId: '921830428079',
     projectId: 'testandoflutterfirebase',
+    databaseURL: 'https://testandoflutterfirebase-default-rtdb.firebaseio.com',
     storageBucket: 'testandoflutterfirebase.appspot.com',
     iosClientId: '921830428079-m06dmk9pnb0jnd17m87v844vr8u1lf2n.apps.googleusercontent.com',
     iosBundleId: 'com.example.aprendendoFirebase',

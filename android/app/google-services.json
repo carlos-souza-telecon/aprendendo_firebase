@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "921830428079",
+    "firebase_url": "https://testandoflutterfirebase-default-rtdb.firebaseio.com",
     "project_id": "testandoflutterfirebase",
     "storage_bucket": "testandoflutterfirebase.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "921830428079-q80cjsl63pds9dnckj7dh2di2ersl1vo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "921830428079-m06dmk9pnb0jnd17m87v844vr8u1lf2n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.aprendendoFirebase"
+              }
             }
           ]
         }

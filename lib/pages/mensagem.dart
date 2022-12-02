@@ -1,3 +1,0 @@
-class Mensagem {
-  String? mensagem;
-}
