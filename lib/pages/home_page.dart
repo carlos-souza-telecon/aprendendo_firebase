@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
     if (value!.isEmpty) {
       return 'Preencha o seu nome';
     }
-    if (value!.length < 3) {
+    if (value.length < 3) {
       return 'O nome deve ter ao menos 3 caracteres';
     }
     return null;
