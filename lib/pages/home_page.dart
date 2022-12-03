@@ -13,6 +13,10 @@ class _HomePageState extends State<HomePage> {
   FirebaseDatabase database = FirebaseDatabase.instance;
   late DatabaseReference pessoasDb;
 
+  final nomeController = TextEditingController();
+  final idadeController = TextEditingController();
+  final _formPessoaKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -23,13 +27,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Aprendendo Firebase'),
+        title: const Text('Aprendendo Firebase'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _cadastrarRonaldo();
+        onPressed: () async {
+          //_cadastrarRonaldo();
+          var pessoa = await dialogCadastrarPessoa();
+          if (pessoa != null) {
+            var chave = pessoasDb.push().key;
+            pessoasDb.child(chave!).set(pessoa.toJSON());
+            exibirSnackBar('Pessoa cadastrada com sucesso!');
+          }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: SingleChildScrollView(
         child: StreamBuilder(
@@ -62,44 +72,147 @@ class _HomePageState extends State<HomePage> {
       return Center(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('Não foram encontradas pessoas!'),
+        child: Column(
+          children: const [
+            Text('Nenhuma pessoa cadastrada.'),
+            Text('Clique em + para começar!'),
+          ],
+        ),
       ));
     }
   }
 
   ListTile listTilePessoa(key, Pessoa pessoa) {
     return ListTile(
-      leading: IconButton(
-        onPressed: () {
-          var novoRivaldo = Pessoa(
-            nome: 'Rivaldo',
-            idade: 50,
-          );
-          pessoasDb.child(key).update(novoRivaldo.toJSON());
-        },
-        icon: Icon(Icons.edit),
-        color: Colors.blue,
-        visualDensity: VisualDensity.compact,
-      ),
       title: Text("${pessoa.nome}"),
       subtitle: Text("${pessoa.idade}"),
-      trailing: IconButton(
-        onPressed: () {
-          pessoasDb.child(key).remove();
-        },
-        icon: Icon(Icons.delete),
-        color: Colors.red,
-        visualDensity: VisualDensity.compact,
+      trailing: Wrap(
+        children: [
+          IconButton(
+            onPressed: () async {
+              nomeController.text = pessoa.nome!;
+              idadeController.text = pessoa.idade!.toString();
+              var novaPessoa = await dialogCadastrarPessoa();
+              if (novaPessoa != null) {
+                pessoasDb.child(key).update(novaPessoa.toJSON());
+                exibirSnackBar('Pessoa alterada com sucesso!');
+              }
+              nomeController.clear();
+              idadeController.clear();
+            },
+            icon: const Icon(Icons.edit),
+            color: Colors.blue,
+            visualDensity: VisualDensity.compact,
+          ),
+          IconButton(
+            onPressed: () {
+              pessoasDb.child(key).remove();
+            },
+            icon: const Icon(Icons.delete),
+            color: Colors.red,
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
       ),
     );
   }
 
-  void _cadastrarRonaldo() {
-    var novoRonaldo = Pessoa(
-      nome: 'Ronaldo',
-      idade: 46,
+  Future<Pessoa?> dialogCadastrarPessoa() async {
+    return await showDialog<Pessoa>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Cadastrar Pessoa'),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _formPessoaKey,
+              child: ListBody(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Nome',
+                      ),
+                      controller: nomeController,
+                      validator: validarNome,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        labelText: 'Idade',
+                      ),
+                      controller: idadeController,
+                      validator: validarIdade,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _formPessoaKey.currentState!.reset();
+                Navigator.pop(context);
+              },
+              child: const Text('CANCELAR'),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_formPessoaKey.currentState!.validate()) {
+                  var nome = nomeController.text;
+                  var idade = int.parse(idadeController.text);
+                  var pessoa = Pessoa(
+                    nome: nome,
+                    idade: idade,
+                  );
+                  _formPessoaKey.currentState!.reset();
+                  Navigator.of(context).pop(pessoa);
+                }
+              },
+              child: const Text('SALVAR'),
+            ),
+          ],
+        );
+      },
     );
-    var chave = pessoasDb.push().key;
-    pessoasDb.child(chave!).set(novoRonaldo.toJSON());
+  }
+
+  String? validarNome(String? value) {
+    if (value!.isEmpty) {
+      return 'Preencha o seu nome';
+    }
+    if (value!.length < 3) {
+      return 'O nome deve ter ao menos 3 caracteres';
+    }
+    return null;
+  }
+
+  String? validarIdade(String? value) {
+    if (value!.isEmpty) {
+      return 'Preencha a sua idade';
+    }
+    try {
+      var conversao = int.parse(value);
+      if (conversao <= 0) {
+        return 'A idade deve ser 0 ou superior';
+      }
+      return null;
+    } catch (e) {
+      return 'Idade inválida';
+    }
+  }
+
+  exibirSnackBar(String texto) {
+    var snackBar = SnackBar(
+      content: Text(texto),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
