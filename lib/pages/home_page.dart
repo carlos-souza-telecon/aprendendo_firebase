@@ -56,6 +56,10 @@ class _HomePageState extends State<HomePage> {
     if (snapshot.hasData &&
         !snapshot.hasError &&
         snapshot.data!.snapshot.value != null) {
+
+          // quando converter pra mapa, perde a ordenação de chaves do firebase!
+          // para ordernar pelas chaves, ver a resposta neste link:
+          // https://stackoverflow.com/questions/72135918/does-the-onvalue-listener-for-realtime-database-return-items-in-the-same-order-t
       var resultado = snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
 
       var listWidgets = <Widget>[];
